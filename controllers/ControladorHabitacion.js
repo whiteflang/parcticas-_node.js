@@ -1,54 +1,127 @@
+import { ServicioHabitacion } from "../services/servicioHabitacion.js"
+
 //CONTROLADOR TIENE LA LOGICA
+
 //DEL NEGOCIO
 export class ControladorHabitacion{
 
+    
+
     constructor(){}
 
-    insertar(request,response){ 
-        let datosPeticion=request.body //Recibo datos BODY
-        response.status(200).json({
+     async insertar(request,response){ 
+        
+        let servicio=new ServicioHabitacion()
+        let datosPeticion=request.body
+
+        try{
+            await servicio.registrar(datosPeticion)
+            response.status(200).json({
             mensaje:"exito en el ingreso de datos",
-            datosIngresados:datosPeticion,
+            datosIngresados: datosPeticion,
             estado:true
         })
+        }
+        catch(error){
+            response.status(400).json({
+                mensaje:"fallo buscando la informacion",
+                datos:["no hay nada crack"],
+                estado:false
+        })
+     }  
+}
 
-    }
+     async  buscarTodos(request,response){
 
-    buscarTodos(request,response){
-        let datosPrueba=[{nombre:"hab1",precio:300000},{nombre:"hab2",precio:400000}] //quitar cuando tenagngomos BD
-        response.status(200).json({
+        let servicio=new ServicioHabitacion()
+
+        try{ 
+            response.status(200).json({
             mensaje:"exito buscando la información",
-            datos:datosPrueba,
+            datos:await servicio.buscarTodos(),
             estado:true
+        })  
+
+        }catch(error){
+            response.status(400).json({
+                mensaje:"fallo buscando la informacion",
+                datos:["no hay nada crack"],
+                estado:false
         })
-    }
+     }
+ }
 
     buscarPorId(request,response){
-        let id=request.params.id //El id que llega por la URL
+
+    try{
+        
+        let servicio=new ServicioHabitacion()
+        let id=request.params.id 
         response.status(200).json({
             mensaje:"exito buscando habitación por id",
-            datos:"Datos del id: "+id,
+            datos:await servicio.buscarPorId(id),
             estado:true
         })
-    }
 
-    editar(request,response){
+
+    }catch(error){
+        response.status(400).json({
+            mensaje:"fallo buscando la informacion",
+            datos:["no hay nada crack"],
+            estado:false})
+     }
+  }
+
+    
+
+
+     async editar(request,response){
+
+        let servicio=new ServicioHabitacion()
         let id=request.params.id //El id que llega por la URL
         let datosPeticion=request.body //Recibo datos BODY
-        response.status(200).json({
+
+        try{
+            await servicio.editar(id,datosPeticion)
+            response.status(200).json({
             mensaje:"exito editando habitación por id",
             datos:"Datos del id: "+id,
-            estado:true
-        })
-    }
+            estado:true})
+        }catch(error){response.status(400).json({
+                mensaje:"fallo buscando la informacion",
+                datos:["no hay nada crack"],
+                estado:false})
+         
 
-    eliminar(request,response){
+        }
+     }
+
+    async eliminar(request,response){
+
+
+        let servicio=new ServicioHabitacion
         let id=request.params.id //El id que llega por la URL
-        response.status(200).json({
-            mensaje:"exito eliminando habitación por id",
-            datos:"Datos del id: "+id,
-            estado:true
-        })
+
+        try{
+            await
+            response.status(200).json({
+                mensaje:"exito eliminando habitación por id",
+                datos:"Datos del id: "+id,
+                estado:true})
+
+        }catch(error){
+            response.status(400).json({
+                mensaje:"fallamos eliminando habitación por id",
+                datos:"Datos del id: "+id,
+                estado:false
+            })
+
+
+
+
+        }
+        
+      
 
     }
 

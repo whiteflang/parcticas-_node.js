@@ -1,6 +1,6 @@
 import { modeloHabitacion } from "../models/habitacionModelo.js";
 
-class ServicioHabitacion{
+export class ServicioHabitacion{
 
     constructor(){}
 
@@ -18,13 +18,13 @@ class ServicioHabitacion{
         
     }
 
-    async registrar(habitacio){
+    async fecha_entrada(habitacion){
         let nuevahabitacion= new modeloHabitacion(habitacion)
         return await habitacionNueva.save()
 
     }
 
-    async editar(id,habitacion){
+    async fecha_salida(id,habitacion){
         return await modeloHabitacion.findByIdAndUpdate(id,habitacion)
 
 
@@ -36,3 +36,4 @@ class ServicioHabitacion{
 
 
 }
+
